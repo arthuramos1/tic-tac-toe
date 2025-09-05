@@ -1,0 +1,10 @@
+import styled from "styled-components";
+
+export const GameWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 520px;
+    gap: 20px;
+`;
