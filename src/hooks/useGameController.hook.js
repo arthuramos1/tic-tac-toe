@@ -10,6 +10,7 @@ export const useGameController = (initialColors, maxScore = 11) => {
 	const [currentPlayer, setCurrentPlayer] = useState("X");
 	const [scores, setScores] = useState({ X: 0, O: 0 });
 	const [winner, setWinner] = useState(null);
+	const [drawCount, setDrawCount] = useState(0);
 	const [matchWinner, seMatchtWinner] = useState(null);
 	const [colors, setColors] = useState(initialColors);
 
@@ -24,7 +25,7 @@ export const useGameController = (initialColors, maxScore = 11) => {
 	};
 
 	const makeMove = index => {
-		if (!isPlaying) return;
+		if (!isPlaying || matchWinner) return;
 		if (board[index] || winner) return;
 		const newBoard = [...board];
 		newBoard[index] = currentPlayer;
@@ -42,6 +43,7 @@ export const useGameController = (initialColors, maxScore = 11) => {
 		} else if (newBoard.every(Boolean)) {
 			seMatchtWinner(DRAW_KEY);
 			setShowTimer(false);
+			setDrawCount(p => p + 1);
 		} else {
 			setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
 		}
@@ -64,15 +66,18 @@ export const useGameController = (initialColors, maxScore = 11) => {
 		setShowTimer(false);
 		resetBoard();
 		resetScores();
+		setDrawCount(0);
 	};
 
 	const goToNext = () => {
 		seMatchtWinner(null);
-		setShowTimer(true);
 		resetBoard();
+
+		if (!winner) setShowTimer(true);
 	};
 
 	return {
+		drawCount,
 		showTimer,
 		isPlaying,
 		board,

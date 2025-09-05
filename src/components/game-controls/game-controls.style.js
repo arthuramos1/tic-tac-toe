@@ -39,6 +39,7 @@ export const RestartGameContent = styled.button`
 	justify-content: center;
 	gap: 10px;
 	transition: ease-in 0.2s all;
+	margin-top: 10px;
 
 	p {
 		font-size: 20px;

@@ -21,7 +21,6 @@ export const ClockContent = styled.div`
 	justify-content: center;
 	gap: 40px;
 	color: white;
-
 	border: 2px solid #444746;
 	border-bottom: 0;
 	border-radius: 14px;
@@ -43,7 +42,6 @@ export const ClockContent = styled.div`
 		height: 2px;
 		width: 100%;
 		background: white;
-
 		transform-origin: left center;
 		animation: ${shrinkBar} 5s linear forwards;
 	}

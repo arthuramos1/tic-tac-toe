@@ -29,8 +29,6 @@ function App() {
 		...fn
 	} = useGameController(initialColors);
 
-	console.log(matchWinner, "matchWinner");
-
 	return (
 		<GameWrapper>
 			<ScoreBoard {...scores} playing={currentPlayer} />
