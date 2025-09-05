@@ -37,27 +37,29 @@ function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<GameWrapper>
-				<ThemeMenu updateColor={updateColor} />
+				<div className="game-container">
+					<ThemeMenu updateColor={updateColor} />
 
-				<ScoreBoard X={scores.X} O={scores.O} playing={currentPlayer} />
+					<ScoreBoard X={scores.X} O={scores.O} playing={currentPlayer} />
 
-				<GameBoard
-					isPlaying={isPlaying}
-					board={board}
-					winner={roundWinner}
-					goToNext={nextRound}
-					onCellClick={handleCellClick}
-				/>
+					<GameBoard
+						isPlaying={isPlaying}
+						board={board}
+						winner={roundWinner}
+						goToNext={nextRound}
+						onCellClick={handleCellClick}
+					/>
 
-				{showTimer && <Timer resetKey={board.join("")} onFinish={autoMove} />}
+					{showTimer && <Timer resetKey={board.join("")} onFinish={autoMove} />}
 
-				<GameControls isPlaying={isPlaying} handleStart={startGame} handleRestart={restartGame} />
+					<GameControls isPlaying={isPlaying} handleStart={startGame} handleRestart={restartGame} />
 
-				{seriesWinner && (
-					<WinnerCard winner={seriesWinner} goToNext={restartGame}>
-						<TableResults drawCount={drawCount} scores={scores} />
-					</WinnerCard>
-				)}
+					{seriesWinner && (
+						<WinnerCard winner={seriesWinner} goToNext={restartGame}>
+							<TableResults drawCount={drawCount} scores={scores} />
+						</WinnerCard>
+					)}
+				</div>
 			</GameWrapper>
 		</ThemeProvider>
 	);
