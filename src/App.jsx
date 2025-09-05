@@ -1,8 +1,11 @@
 import "./App.css";
 import { useCallback } from "react";
+import { ThemeProvider } from "styled-components";
 
 import { useGameController } from "./hooks/useGameController.hook";
-import { GameBoard, ScoreBoard, Timer, GameControls, WinnerCard, TableResults } from "./components";
+import { useThemeController } from "./hooks/useThemeController.hook";
+
+import { GameBoard, ScoreBoard, Timer, GameControls, WinnerCard, TableResults, ThemeMenu } from "./components";
 import { GameWrapper } from "./components/ui";
 
 function App() {
@@ -22,6 +25,8 @@ function App() {
 		nextRound,
 	} = useGameController();
 
+	const { theme, updateColor } = useThemeController();
+
 	const handleCellClick = useCallback(
 		index => {
 			makeMove(index);
@@ -30,27 +35,31 @@ function App() {
 	);
 
 	return (
-		<GameWrapper>
-			<ScoreBoard X={scores.X} O={scores.O} playing={currentPlayer} />
+		<ThemeProvider theme={theme}>
+			<GameWrapper>
+				<ThemeMenu updateColor={updateColor} />
 
-			<GameBoard
-				isPlaying={isPlaying}
-				board={board}
-				winner={roundWinner}
-				goToNext={nextRound}
-				onCellClick={handleCellClick}
-			/>
+				<ScoreBoard X={scores.X} O={scores.O} playing={currentPlayer} />
 
-			{showTimer && <Timer resetKey={board.join("")} onFinish={autoMove} />}
+				<GameBoard
+					isPlaying={isPlaying}
+					board={board}
+					winner={roundWinner}
+					goToNext={nextRound}
+					onCellClick={handleCellClick}
+				/>
 
-			<GameControls isPlaying={isPlaying} handleStart={startGame} handleRestart={restartGame} />
+				{showTimer && <Timer resetKey={board.join("")} onFinish={autoMove} />}
 
-			{seriesWinner && (
-				<WinnerCard winner={seriesWinner} goToNext={restartGame}>
-					<TableResults drawCount={drawCount} scores={scores} />
-				</WinnerCard>
-			)}
-		</GameWrapper>
+				<GameControls isPlaying={isPlaying} handleStart={startGame} handleRestart={restartGame} />
+
+				{seriesWinner && (
+					<WinnerCard winner={seriesWinner} goToNext={restartGame}>
+						<TableResults drawCount={drawCount} scores={scores} />
+					</WinnerCard>
+				)}
+			</GameWrapper>
+		</ThemeProvider>
 	);
 }
 

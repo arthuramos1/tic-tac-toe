@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import { Circle, X } from "lucide-react";
+import { useTheme } from "styled-components";
+
 import { DRAW_KEY } from "../../constants/general.constants";
 import { X_PLAYER, O_PLAYER } from "../../constants/players-values.constants";
 
@@ -9,9 +11,11 @@ import { WinningLine } from "./line-winner.style";
 import { BoardWrapper, CellContainer } from "./game-board.style";
 
 const ValueIndicator = ({ value }) => {
-	if (value === O_PLAYER) return <Circle size={80} color="white" />;
-	if (value === X_PLAYER) return <X color="white" size={95} />;
-	return <></>;
+	const theme = useTheme();
+
+	if (value === "O") return <Circle size={80} color={theme.O} />;
+	if (value === "X") return <X size={95} color={theme.X} />;
+	return null;
 };
 
 ValueIndicator.propTypes = {

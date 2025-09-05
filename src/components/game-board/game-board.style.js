@@ -7,10 +7,9 @@ export const BoardWrapper = styled.div`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(3, 1fr);
-	background: var(--board-bg, #ffffff);
 	border-radius: 8px;
 	overflow: hidden;
-	background-color: #444746;
+	background-color: ${({ theme }) => theme.boardLines};
 	gap: 10px;
 `;
 
@@ -25,7 +24,7 @@ export const CellContainer = styled.button`
 	justify-content: center;
 	cursor: pointer;
 	user-select: none;
-	background-color: #1f1f1f;
+	background-color: ${({ theme }) => theme.board};
 	transition: ease-in 0.1s all;
 
 	&:hover:not(:disabled) {

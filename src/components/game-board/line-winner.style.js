@@ -11,7 +11,8 @@ export const WinningLine = styled.div`
 	left: ${({ type }) => (type >= 3 && type < 6 ? `${(type - 3) * 33.33 + 16.66}%` : "0%")};
 	width: ${({ type }) => (type < 3 ? "100%" : type >= 3 && type < 6 ? "6px" : "100%")};
 	height: ${({ type }) => (type < 3 ? "6px" : type >= 3 && type < 6 ? "100%" : "6px")};
-	background: white;
+	background: ${({ theme }) => theme.lineWinner};
+
 	transform-origin: left center;
 	animation: ${drawLine} 0.4s linear forwards;
 

@@ -1,13 +1,17 @@
 import PropTypes from "prop-types";
 import { Circle, X, PartyPopper, Handshake } from "lucide-react";
+import { useTheme } from "styled-components";
+
 import { DRAW_KEY } from "../../constants/general.constants";
 import { X_PLAYER } from "../../constants/players-values.constants";
 import { WinnerCardWrapper } from "./winner-card.style";
 
 const IndicatorWin = ({ winner }) => {
+	const theme = useTheme();
+
 	if (winner === DRAW_KEY) return null;
-	if (winner === X_PLAYER) return <X size={90} color="white" />;
-	return <Circle size={80} color="white" />;
+	if (winner === X_PLAYER) return <X size={90} color={theme.X} />;
+	return <Circle size={80} color={theme.O} />;
 };
 
 IndicatorWin.propTypes = {
