@@ -1,14 +1,8 @@
 import "./App.css";
 
 import { useGameController } from "./hooks/useGameController.hook";
-
-import { GameBoard } from "./components/game-board";
-import { ScoreBoard } from "./components/score-board";
-import { Timer } from "./components/timer";
-import { GameControls } from "./components/game-controls";
-import { GameWrapper } from "./components/ui/game-wrapper.styles";
-import { WinnerCard } from "./components/winner-card";
-import { TableResults } from "./components/table-results";
+import { GameBoard, ScoreBoard, Timer, GameControls, WinnerCard, TableResults } from "./components";
+import { GameWrapper } from "./components/ui";
 
 function App() {
 	const initialColors = {

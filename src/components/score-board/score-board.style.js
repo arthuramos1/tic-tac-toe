@@ -9,7 +9,9 @@ export const ScoreboardWrapper = styled.div`
 	border-bottom: 2px solid #444746;
 `;
 
-export const PlayerPointsContainer = styled.div`
+export const PlayerPointsContainer = styled.div.withConfig({
+	shouldForwardProp: prop => prop !== "activated",
+})`
 	display: flex;
 	align-items: center;
 	justify-content: center;

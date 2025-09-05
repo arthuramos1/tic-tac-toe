@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Circle, X, PartyPopper, Handshake } from "lucide-react";
 import { DRAW_KEY } from "../../constants/general.constants";
 import { X_PLAYER } from "../../constants/players-values.constants";
@@ -7,6 +8,10 @@ const IndicatorWin = ({ winner }) => {
 	if (winner === DRAW_KEY) return null;
 	if (winner === X_PLAYER) return <X size={90} color="white" />;
 	return <Circle size={80} color="white" />;
+};
+
+IndicatorWin.propTypes = {
+	winner: PropTypes.string.isRequired,
 };
 
 export const WinnerCard = ({ winner, goToNext, children }) => {
@@ -31,4 +36,10 @@ export const WinnerCard = ({ winner, goToNext, children }) => {
 			<p>Clique em qualquer lugar.</p>
 		</WinnerCardWrapper>
 	);
+};
+
+WinnerCard.propTypes = {
+	winner: PropTypes.string.isRequired,
+	goToNext: PropTypes.func.isRequired,
+	children: PropTypes.node,
 };

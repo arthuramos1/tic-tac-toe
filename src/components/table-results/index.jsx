@@ -1,4 +1,6 @@
-import { TableResultsWrapper, Row } from "./table-results.style";
+import PropTypes from "prop-types";
+import { TableResultsWrapper } from "./table-results.style";
+import { Row } from "../ui";
 
 export const TableResults = ({ drawCount, scores }) => {
 	return (
@@ -17,4 +19,12 @@ export const TableResults = ({ drawCount, scores }) => {
 			</Row>
 		</TableResultsWrapper>
 	);
+};
+
+TableResults.propTypes = {
+	drawCount: PropTypes.number.isRequired,
+	scores: PropTypes.shape({
+		X: PropTypes.number.isRequired,
+		O: PropTypes.number.isRequired,
+	}).isRequired,
 };

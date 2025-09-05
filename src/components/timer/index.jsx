@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Clock } from "lucide-react";
 
 import { MAX_PLAYING_TIME } from "../../constants/general.constants";
 import { TimerWrapper, ClockContent } from "./timer.style";
 
-export const Timer = ({ onFinish, resetKey = "initial", autoStart = true }) => {
+export const Timer = ({ onFinish, resetKey }) => {
 	const [remaining, setRemaining] = useState(MAX_PLAYING_TIME);
 
 	useEffect(() => {
@@ -12,8 +13,6 @@ export const Timer = ({ onFinish, resetKey = "initial", autoStart = true }) => {
 	}, [resetKey]);
 
 	useEffect(() => {
-		if (!autoStart) return;
-
 		const id = setInterval(() => {
 			setRemaining(prev => {
 				if (prev <= 1) {
@@ -26,7 +25,7 @@ export const Timer = ({ onFinish, resetKey = "initial", autoStart = true }) => {
 		}, 1000);
 
 		return () => clearInterval(id);
-	}, [autoStart, onFinish, remaining]);
+	}, [onFinish]);
 
 	return (
 		<TimerWrapper>
@@ -36,4 +35,9 @@ export const Timer = ({ onFinish, resetKey = "initial", autoStart = true }) => {
 			</ClockContent>
 		</TimerWrapper>
 	);
+};
+
+Timer.propTypes = {
+	onFinish: PropTypes.func.isRequired,
+	resetKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };

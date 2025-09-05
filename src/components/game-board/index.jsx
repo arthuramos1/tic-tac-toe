@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Circle, X } from "lucide-react";
 import { DRAW_KEY } from "../../constants/general.constants";
 import { X_PLAYER, O_PLAYER } from "../../constants/players-values.constants";
@@ -13,7 +14,11 @@ const ValueIndicator = ({ value }) => {
 	return <></>;
 };
 
-export const GameBoard = ({ isPlaying, winner, goToNext, board, onCellClick = () => {} }) => {
+ValueIndicator.propTypes = {
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+};
+
+export const GameBoard = ({ isPlaying, winner, goToNext, board, onCellClick }) => {
 	const winningLine = winner ? getWinningLine(board) : null;
 
 	const handleKey = (e, idx) => {
@@ -46,4 +51,16 @@ export const GameBoard = ({ isPlaying, winner, goToNext, board, onCellClick = ()
 			{winner === DRAW_KEY && <WinnerCard winner={winner} goToNext={goToNext} />}
 		</BoardWrapper>
 	);
+};
+
+GameBoard.propTypes = {
+	isPlaying: PropTypes.bool.isRequired,
+	winner: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
+	goToNext: PropTypes.func.isRequired,
+	board: PropTypes.arrayOf(PropTypes.oneOf([X_PLAYER, O_PLAYER, null])).isRequired,
+	onCellClick: PropTypes.func,
+};
+
+GameBoard.defaultProps = {
+	onCellClick: () => {},
 };
