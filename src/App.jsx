@@ -1,31 +1,53 @@
 import "./App.css";
+import { useCallback } from "react";
 
 import { useGameController } from "./hooks/useGameController.hook";
 import { GameBoard, ScoreBoard, Timer, GameControls, WinnerCard, TableResults } from "./components";
 import { GameWrapper } from "./components/ui";
 
 function App() {
-	const initialColors = {
-		X: "#ff3b3b",
-		O: "#3b9fff",
-		board: "#444746",
-		bg: "#000",
-	};
+	const {
+		isPlaying,
+		showTimer,
+		board,
+		currentPlayer,
+		scores,
+		drawCount,
+		roundWinner,
+		seriesWinner,
+		makeMove,
+		autoMove,
+		startGame,
+		restartGame,
+		nextRound,
+	} = useGameController();
 
-	const { isPlaying, showTimer, board, currentPlayer, scores, drawCount, roundWinner, seriesWinner, ...fn } =
-		useGameController(initialColors);
+	const handleCellClick = useCallback(
+		index => {
+			makeMove(index);
+		},
+		[makeMove]
+	);
 
 	return (
 		<GameWrapper>
-			<ScoreBoard {...scores} playing={currentPlayer} />
-			<GameBoard {...{ isPlaying, board }} onCellClick={fn.makeMove} winner={roundWinner} goToNext={fn.nextRound} />
+			<ScoreBoard X={scores.X} O={scores.O} playing={currentPlayer} />
 
-			{showTimer && <Timer resetKey={board.join("")} onFinish={fn.autoMove} />}
-			<GameControls {...{ isPlaying }} handleStart={fn.startGame} handleRestart={fn.restartGame} />
+			<GameBoard
+				isPlaying={isPlaying}
+				board={board}
+				winner={roundWinner}
+				goToNext={nextRound}
+				onCellClick={handleCellClick}
+			/>
+
+			{showTimer && <Timer resetKey={board.join("")} onFinish={autoMove} />}
+
+			<GameControls isPlaying={isPlaying} handleStart={startGame} handleRestart={restartGame} />
 
 			{seriesWinner && (
-				<WinnerCard winner={seriesWinner} goToNext={fn.restartGame}>
-					<TableResults {...{ drawCount, scores }} />
+				<WinnerCard winner={seriesWinner} goToNext={restartGame}>
+					<TableResults drawCount={drawCount} scores={scores} />
 				</WinnerCard>
 			)}
 		</GameWrapper>

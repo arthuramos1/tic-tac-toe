@@ -1,22 +1,20 @@
 import { useState } from "react";
-import { DRAW_KEY } from "../constants/general.constants";
+import { DRAW_KEY, MAX_SCORE } from "../constants/general.constants";
 import { X_PLAYER, O_PLAYER } from "../constants/players-values.constants";
 import { checkWinner, getEmptyCells } from "../utils/game.utils";
 
-export const useGameController = (initialColors, maxScore = 11) => {
+export const useGameController = () => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [showTimer, setShowTimer] = useState(false);
 
 	const [board, setBoard] = useState(Array(9).fill(null));
 	const [currentPlayer, setCurrentPlayer] = useState(X_PLAYER);
 
-	const [scores, setScores] = useState({ X: 10, O: 0 });
+	const [scores, setScores] = useState({ X: 0, O: 0 });
 	const [drawCount, setDrawCount] = useState(0);
 
 	const [roundWinner, setRoundWinner] = useState(null);
 	const [seriesWinner, setSeriesWinner] = useState(null);
-
-	const [colors, setColors] = useState(initialColors);
 
 	const resetBoard = () => setBoard(Array(9).fill(null));
 
@@ -48,7 +46,7 @@ export const useGameController = (initialColors, maxScore = 11) => {
 			setScores(prev => {
 				const newScores = { ...prev, [result]: prev[result] + 1 };
 
-				if (newScores[result] >= maxScore) {
+				if (newScores[result] >= MAX_SCORE) {
 					setSeriesWinner(result);
 				}
 
@@ -102,9 +100,6 @@ export const useGameController = (initialColors, maxScore = 11) => {
 		drawCount,
 		roundWinner,
 		seriesWinner,
-		colors,
-
-		setColors,
 		makeMove,
 		autoMove,
 		startGame,
