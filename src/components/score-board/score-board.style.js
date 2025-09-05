@@ -15,7 +15,6 @@ export const PlayerPointsContainer = styled.div`
 	justify-content: center;
 	color: white;
 	gap: 100px;
-
 	border: 2px solid #444746;
 	border-bottom-color: ${({ activated }) => (activated ? "white" : "transparent")};
 	border-radius: 14px;

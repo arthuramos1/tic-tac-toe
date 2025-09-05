@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Clock } from "lucide-react";
 
 import { MAX_PLAYING_TIME } from "../../constants/general.constants";
-
 import { TimerWrapper, ClockContent } from "./timer.style";
 
 export const Timer = ({ onFinish, resetKey = "initial", autoStart = true }) => {

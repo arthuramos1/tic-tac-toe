@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { DRAW_KEY } from "../constants/general.constants";
 import { checkWinner, getEmptyCells } from "../utils/game.utils";
 
 export const useGameController = (initialColors, maxScore = 11) => {
@@ -39,7 +40,8 @@ export const useGameController = (initialColors, maxScore = 11) => {
 			seMatchtWinner(result);
 			setShowTimer(false);
 		} else if (newBoard.every(Boolean)) {
-			resetBoard();
+			seMatchtWinner(DRAW_KEY);
+			setShowTimer(false);
 		} else {
 			setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
 		}
@@ -59,6 +61,7 @@ export const useGameController = (initialColors, maxScore = 11) => {
 
 	const handleRestart = () => {
 		setIsPlayng(false);
+		setShowTimer(false);
 		resetBoard();
 		resetScores();
 	};

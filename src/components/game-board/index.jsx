@@ -1,4 +1,5 @@
 import { Circle, X } from "lucide-react";
+import { DRAW_KEY } from "../../constants/general.constants";
 import { X_PLAYER, O_PLAYER } from "../../constants/players-values.constants";
 
 import { WinnerCard } from "../winner-card";
@@ -13,9 +14,9 @@ const ValueIndicator = ({ value }) => {
 };
 
 export const GameBoard = ({ winner, goToNext, board, onCellClick = () => {} }) => {
-	const winningLine = winner ? getWinningLine(board) : null;
+	console.log(winner, "winner");
 
-	console.log(winner, "winne GameBoard");
+	const winningLine = winner ? getWinningLine(board) : null;
 
 	const handleKey = (e, idx) => {
 		if (e.key === "Enter" || e.key === " ") {
@@ -38,6 +39,8 @@ export const GameBoard = ({ winner, goToNext, board, onCellClick = () => {} }) =
 					<WinnerCard winner={winner} goToNext={goToNext} />
 				</>
 			)}
+
+			{winner === DRAW_KEY && <WinnerCard winner={winner} goToNext={goToNext} />}
 		</BoardWrapper>
 	);
 };
