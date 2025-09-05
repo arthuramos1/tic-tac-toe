@@ -8,9 +8,13 @@ export const useGameController = (initialColors, maxScore = 11) => {
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [scores, setScores] = useState({ X: 0, O: 0 });
   const [winner, setWinner] = useState(null);
+  const [matchWinner, seMatchtWinner] = useState(null);
   const [colors, setColors] = useState(initialColors);
 
-  const resetBoard = () => setBoard(Array(9).fill(null));
+  const resetBoard = () => {
+    setBoard(Array(9).fill(null));
+    seMatchtWinner(false);
+  };
 
   const resetScores = () => {
     setScores({ X: 0, O: 0 });
@@ -25,8 +29,14 @@ export const useGameController = (initialColors, maxScore = 11) => {
 
     const result = checkWinner(newBoard);
     if (result) {
+      console.log(result, "result");
+      
       setScores((prev) => ({ ...prev, [result]: prev[result] + 1 }));
-      if (scores[result] + 1 >= maxScore) setWinner(result);
+      if (scores[result] + 1 >= maxScore) {
+        setWinner(result);
+      };
+
+      seMatchtWinner(true);
       // resetBoard();
     } else if (newBoard.every(Boolean)) {
       resetBoard();
@@ -55,6 +65,7 @@ export const useGameController = (initialColors, maxScore = 11) => {
   return {
     isPlaying,
     board,
+    matchWinner,
     currentPlayer,
     scores,
     winner,

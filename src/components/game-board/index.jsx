@@ -42,7 +42,9 @@ const Cell = styled.button`
   }
 `;
 
+import { getWinningLine } from "../../utils/game.utils";
 import { Circle, X } from "lucide-react";
+import { WinningLine, WinnerCardWrapper } from "./game-board.style";
 
 const ValueIndicator = ({ value }) => {
   if (value === "O") return <Circle size={80} color="white" />;
@@ -53,15 +55,18 @@ const ValueIndicator = ({ value }) => {
 export default function GameBoard({
   board = Array(9).fill(null),
   onCellClick = () => {},
+  winner,
 }) {
+  const winningLine = winner ? getWinningLine(board) : null;
+
+  console.log(winningLine, "winningLine");
+
   const handleKey = (e, idx) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       onCellClick(idx);
     }
   };
-
-  console.log(board, "board");
 
   return (
     <Board role="grid" aria-label="Tabuleiro da Jogo da Velha">
@@ -75,6 +80,15 @@ export default function GameBoard({
           <ValueIndicator value={val} />
         </Cell>
       ))}
+
+      {winningLine  && (
+        <>
+          <WinningLine type={winningLine.type} />
+          {/* <WinnerCardWrapper >
+
+          </WinnerCardWrapper> */}
+        </>
+      )}
     </Board>
   );
 }

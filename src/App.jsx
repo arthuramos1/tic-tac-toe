@@ -6,6 +6,7 @@ import GameBoard from "./components/game-board";
 import { ScoreBoard } from "./components/score-board";
 import { Timer } from "./components/timer";
 import { GameControls } from "./components/game-controls";
+import { WinnerCard } from "./components/winner-card";
 import { GameWrapper } from "./components/ui/game-wrapper.styles";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
   };
 
   const {
+    matchWinner,
     isPlaying,
     board,
     currentPlayer,
@@ -30,7 +32,7 @@ function App() {
   return (
     <GameWrapper>
       <ScoreBoard {...scores} playing={currentPlayer} />
-      <GameBoard board={board} onCellClick={fn.makeMove} colors={colors} />
+      <GameBoard board={board} onCellClick={fn.makeMove} colors={colors} winner={matchWinner} />
 
       {isPlaying && <Timer resetKey={board.join("")} onFinish={fn.autoMove} />}
       <GameControls {...{ isPlaying }} handleStart={fn.handleStart} handleRestart={fn.handleRestart} />

@@ -7,4 +7,5 @@ export const GameWrapper = styled.div`
     justify-content: center;
     max-width: 520px;
     gap: 20px;
+    position: relative;
 `;

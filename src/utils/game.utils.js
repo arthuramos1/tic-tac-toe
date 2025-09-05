@@ -1,20 +1,31 @@
-export const checkWinner = (board) => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
+const WINNER_LINES = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+]
 
-  for (let [a, b, c] of lines) {
+export const checkWinner = (board) => {
+  for (let [a, b, c] of WINNER_LINES) {
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
       return board[a];
     }
   }
+  return null;
+};
+
+export const getWinningLine = (board) => {
+  for (let i = 0; i < WINNER_LINES.length; i++) {
+    const [a, b, c] = WINNER_LINES[i];
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      return { indices: [a, b, c], type: i };
+    }
+  }
+
   return null;
 };
 
