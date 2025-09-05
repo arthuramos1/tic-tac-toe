@@ -18,13 +18,13 @@ function App() {
 		bg: "#000",
 	};
 
-	const { isPlaying, showTimer, board, currentPlayer, scores, drawCount, roundWinner, seriesWinner, colors, ...fn } =
+	const { isPlaying, showTimer, board, currentPlayer, scores, drawCount, roundWinner, seriesWinner, ...fn } =
 		useGameController(initialColors);
 
 	return (
 		<GameWrapper>
 			<ScoreBoard {...scores} playing={currentPlayer} />
-			<GameBoard board={board} onCellClick={fn.makeMove} colors={colors} winner={roundWinner} goToNext={fn.nextRound} />
+			<GameBoard {...{ isPlaying, board }} onCellClick={fn.makeMove} winner={roundWinner} goToNext={fn.nextRound} />
 
 			{showTimer && <Timer resetKey={board.join("")} onFinish={fn.autoMove} />}
 			<GameControls {...{ isPlaying }} handleStart={fn.startGame} handleRestart={fn.restartGame} />

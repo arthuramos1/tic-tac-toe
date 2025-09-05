@@ -37,7 +37,6 @@ export const WinnerCardWrapper = styled.button`
 	position: absolute;
 	visibility: hidden;
 	cursor: pointer;
-
 	animation: ${fadeInBackground} 0.3s ease 0.5s forwards;
 
 	.win-indicator {
@@ -54,5 +53,13 @@ export const WinnerCardWrapper = styled.button`
 			text-align: end;
 			color: white;
 		}
+	}
+
+	p {
+		position: absolute;
+		bottom: 10px;
+		font-size: 14px;
+		font-weight: 500;
+		color: white;
 	}
 `;

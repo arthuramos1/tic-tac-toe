@@ -13,7 +13,7 @@ const ValueIndicator = ({ value }) => {
 	return <></>;
 };
 
-export const GameBoard = ({ winner, goToNext, board, onCellClick = () => {} }) => {
+export const GameBoard = ({ isPlaying, winner, goToNext, board, onCellClick = () => {} }) => {
 	const winningLine = winner ? getWinningLine(board) : null;
 
 	const handleKey = (e, idx) => {
@@ -26,7 +26,12 @@ export const GameBoard = ({ winner, goToNext, board, onCellClick = () => {} }) =
 	return (
 		<BoardWrapper role="grid" aria-label="Tic tae toe">
 			{board.map((val, idx) => (
-				<CellContainer key={idx} onClick={() => onCellClick(idx)} onKeyDown={e => handleKey(e, idx)} disabled={!!val}>
+				<CellContainer
+					key={idx}
+					onClick={() => onCellClick(idx)}
+					onKeyDown={e => handleKey(e, idx)}
+					disabled={!!val || !isPlaying}
+				>
 					<ValueIndicator value={val} />
 				</CellContainer>
 			))}

@@ -27,6 +27,8 @@ export const WinnerCard = ({ winner, goToNext, children }) => {
 			)}
 
 			{!!children && children}
+
+			<p>Clique em qualquer lugar.</p>
 		</WinnerCardWrapper>
 	);
 };
