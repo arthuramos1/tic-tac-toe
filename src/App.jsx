@@ -7,6 +7,8 @@ import { ScoreBoard } from "./components/score-board";
 import { Timer } from "./components/timer";
 import { GameControls } from "./components/game-controls";
 import { GameWrapper } from "./components/ui/game-wrapper.styles";
+import { WinnerCard } from "./components/winner-card";
+import { TableResults } from "./components/table-results";
 
 function App() {
 	const initialColors = {
@@ -16,26 +18,22 @@ function App() {
 		bg: "#000",
 	};
 
-	const {
-		matchWinner,
-		isPlaying,
-		board,
-		showTimer,
-		currentPlayer,
-		scores,
-		// winner,
-		colors,
-		// setColors,
-		...fn
-	} = useGameController(initialColors);
+	const { isPlaying, showTimer, board, currentPlayer, scores, drawCount, roundWinner, seriesWinner, colors, ...fn } =
+		useGameController(initialColors);
 
 	return (
 		<GameWrapper>
 			<ScoreBoard {...scores} playing={currentPlayer} />
-			<GameBoard board={board} onCellClick={fn.makeMove} colors={colors} winner={matchWinner} goToNext={fn.goToNext} />
+			<GameBoard board={board} onCellClick={fn.makeMove} colors={colors} winner={roundWinner} goToNext={fn.nextRound} />
 
 			{showTimer && <Timer resetKey={board.join("")} onFinish={fn.autoMove} />}
-			<GameControls {...{ isPlaying }} handleStart={fn.handleStart} handleRestart={fn.handleRestart} />
+			<GameControls {...{ isPlaying }} handleStart={fn.startGame} handleRestart={fn.restartGame} />
+
+			{seriesWinner && (
+				<WinnerCard winner={seriesWinner} goToNext={fn.restartGame}>
+					<TableResults {...{ drawCount, scores }} />
+				</WinnerCard>
+			)}
 		</GameWrapper>
 	);
 }

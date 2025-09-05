@@ -9,7 +9,7 @@ const IndicatorWin = ({ winner }) => {
 	return <Circle size={80} color="white" />;
 };
 
-export const WinnerCard = ({ winner, goToNext }) => {
+export const WinnerCard = ({ winner, goToNext, children }) => {
 	return (
 		<WinnerCardWrapper onClick={goToNext}>
 			<IndicatorWin winner={winner} />
@@ -25,6 +25,8 @@ export const WinnerCard = ({ winner, goToNext }) => {
 					<span>Vencedor</span>
 				</div>
 			)}
+
+			{!!children && children}
 		</WinnerCardWrapper>
 	);
 };

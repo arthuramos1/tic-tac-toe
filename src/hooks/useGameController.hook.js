@@ -1,98 +1,114 @@
 import { useState } from "react";
 import { DRAW_KEY } from "../constants/general.constants";
+import { X_PLAYER, O_PLAYER } from "../constants/players-values.constants";
 import { checkWinner, getEmptyCells } from "../utils/game.utils";
 
 export const useGameController = (initialColors, maxScore = 11) => {
-	const [isPlaying, setIsPlayng] = useState(false);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const [showTimer, setShowTimer] = useState(false);
 
 	const [board, setBoard] = useState(Array(9).fill(null));
-	const [currentPlayer, setCurrentPlayer] = useState("X");
-	const [scores, setScores] = useState({ X: 0, O: 0 });
-	const [winner, setWinner] = useState(null);
+	const [currentPlayer, setCurrentPlayer] = useState(X_PLAYER);
+
+	const [scores, setScores] = useState({ X: 10, O: 0 });
 	const [drawCount, setDrawCount] = useState(0);
-	const [matchWinner, seMatchtWinner] = useState(null);
+
+	const [roundWinner, setRoundWinner] = useState(null);
+	const [seriesWinner, setSeriesWinner] = useState(null);
+
 	const [colors, setColors] = useState(initialColors);
 
-	const resetBoard = () => {
-		setBoard(Array(9).fill(null));
-		seMatchtWinner(null);
-	};
+	const resetBoard = () => setBoard(Array(9).fill(null));
 
 	const resetScores = () => {
 		setScores({ X: 0, O: 0 });
-		setWinner(null);
+		setDrawCount(0);
+		setSeriesWinner(null);
+	};
+
+	const resetAll = () => {
+		resetBoard();
+		resetScores();
+		setRoundWinner(null);
+		setIsPlaying(false);
+		setShowTimer(false);
+		setCurrentPlayer(X_PLAYER);
 	};
 
 	const makeMove = index => {
-		if (!isPlaying || matchWinner) return;
-		if (board[index] || winner) return;
+		if (!isPlaying || roundWinner || board[index]) return;
+
 		const newBoard = [...board];
 		newBoard[index] = currentPlayer;
 		setBoard(newBoard);
 
 		const result = checkWinner(newBoard);
-		if (result) {
-			setScores(prev => ({ ...prev, [result]: prev[result] + 1 }));
-			if (scores[result] + 1 >= maxScore) {
-				setWinner(result);
-			}
 
-			seMatchtWinner(result);
+		if (result) {
+			setScores(prev => {
+				const newScores = { ...prev, [result]: prev[result] + 1 };
+
+				if (newScores[result] >= maxScore) {
+					setSeriesWinner(result);
+				}
+
+				return newScores;
+			});
+
+			setRoundWinner(result);
 			setShowTimer(false);
 		} else if (newBoard.every(Boolean)) {
-			seMatchtWinner(DRAW_KEY);
-			setShowTimer(false);
+			setRoundWinner(DRAW_KEY);
 			setDrawCount(p => p + 1);
+			setShowTimer(false);
 		} else {
-			setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+			setCurrentPlayer(currentPlayer === X_PLAYER ? O_PLAYER : X_PLAYER);
 		}
 	};
 
 	const autoMove = () => {
 		const emptyCells = getEmptyCells(board);
 		if (emptyCells.length === 0) return;
+
 		const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
 		makeMove(randomIndex);
 	};
 
-	const handleStart = () => {
-		setIsPlayng(true);
+	const startGame = () => {
+		setIsPlaying(true);
 		setShowTimer(true);
+		resetBoard();
+		setRoundWinner(null);
 	};
 
-	const handleRestart = () => {
-		setIsPlayng(false);
-		setShowTimer(false);
-		resetBoard();
-		resetScores();
-		setDrawCount(0);
-	};
+	const restartGame = () => resetAll();
 
-	const goToNext = () => {
-		seMatchtWinner(null);
+	const nextRound = () => {
+		setRoundWinner(null);
 		resetBoard();
 
-		if (!winner) setShowTimer(true);
+		if (!seriesWinner) {
+			setShowTimer(true);
+			setCurrentPlayer(X_PLAYER);
+		}
 	};
 
 	return {
-		drawCount,
-		showTimer,
 		isPlaying,
+		showTimer,
 		board,
-		matchWinner,
 		currentPlayer,
 		scores,
-		winner,
+		drawCount,
+		roundWinner,
+		seriesWinner,
 		colors,
+
 		setColors,
 		makeMove,
 		autoMove,
-		resetBoard,
-		resetScores,
-		handleStart,
-		handleRestart,
-		goToNext,
+		startGame,
+		restartGame,
+		nextRound,
 	};
 };

@@ -14,8 +14,6 @@ const ValueIndicator = ({ value }) => {
 };
 
 export const GameBoard = ({ winner, goToNext, board, onCellClick = () => {} }) => {
-	console.log(winner, "winner");
-
 	const winningLine = winner ? getWinningLine(board) : null;
 
 	const handleKey = (e, idx) => {
